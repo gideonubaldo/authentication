@@ -1,10 +1,26 @@
 //this is boiler plate
 import React, { Component } from 'react';
+import { Text } from 'react-native';
+import firebase from 'firebase';
 import { Button, Card, CardSection, Input } from './common';
 
 
 class LoginForm extends Component {
-  state = { email: '', password: ''};
+  state = { email: '', password: '', error: ''};
+  onButtonPress(){
+    const {email , password } = this.state;
+
+
+    this.setState({ error: ''});
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .catch(() => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .catch(() => {
+            this.setState({ error: "Authentication Failed."});
+          });
+      });
+  }
 
   render() {
     return(
@@ -28,8 +44,12 @@ class LoginForm extends Component {
           />
         </CardSection>
 
+        <Text style={styles.errorTextStyle}>
+          {this.state.error}
+        </Text>
+
         <CardSection>
-          <Button>
+          <Button onPress={this.onButtonPress.bind(this)}>
             Log in
           </Button>
         </CardSection>
@@ -38,6 +58,13 @@ class LoginForm extends Component {
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  }
+}
 /*this exports the whole thing. if we do the de structure, it only
 // gives the object
 
@@ -48,6 +75,8 @@ just entered) and this.setState is a function inside
 of that method. { password } is the de-structuring
 of the parameter password and assigning it directly to the
 password in state. 
+
+set state always refreshes fetch
 
 */
 
