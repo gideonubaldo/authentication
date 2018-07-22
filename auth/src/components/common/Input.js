@@ -1,14 +1,15 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const Input = ({ label, value, onChangeText, placeholder }) => {
-  const { inputStyle, labelStyle, containerStyle } = styles;
+const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+  const { inputStyle, labelStyle, containerStyle} = styles;
 
 
   return(
     <View style={containerStyle}>
       <Text style={labelStyle}>{ label }</Text>
       <TextInput
+        secureTextEntry={secureTextEntry}
         placeholder={placeholder}
         autoCorrect={false}
         style={inputStyle}
@@ -43,3 +44,9 @@ const styles = {
 
 }
 export { Input };
+
+/*
+
+by passing secureTextEntry(for example, alone, a variable that expects true or false), then
+we could leave it just the text indicating that we want it to be true
+*/
