@@ -29,7 +29,11 @@ class App extends Component {
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
-        return <Button>Log Out</Button>;
+        return (
+          <Button onPress={() => firebase.auth().signOut()}>
+          Log Out
+          </Button>
+        );
       case false: 
         return <LoginForm />;
       default: 
@@ -47,3 +51,12 @@ class App extends Component {
 }
 
 export default App;
+
+/*
+ <Button onPress={() => firebase.auth().signOut()}>
+ this function would proct the function 
+ firebase.auth().onAuthStateChanged((user)
+ to change user to !user hence 
+  this.setState({ loggedIn: false });
+  would be initialized 
+*/
